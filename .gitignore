@@ -1,0 +1,36 @@
+target/
+*.log
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+/.idea/
+/.vscode/
+jenkinsfiles
+data.yaml
+README_INTERNAL.md
+**/src/test/**/*.feature
+**/src/test/**/*.xml
