@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<v8:SecureSendAPDUResponse xmlns:v8="http://ws.gematik.de/conn/CardService/v8.2" xmlns:v5="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:v2="http://ws.gematik.de/tel/error/v2.0">
+    <v5:Status>
+        <v5:Result>OK</v5:Result>
+    </v5:Status>
+    <v8:SignedScenarioResponse>
+        <v8:ResponseApduList>
+            ef2bc003020000c103040502c210444549444d4548435f39303030030005c403010000c503020000c703010000
+        </v8:ResponseApduList>
+        <v8:TimeSpan>200</v8:TimeSpan>
+    </v8:SignedScenarioResponse>
+</v8:SecureSendAPDUResponse>

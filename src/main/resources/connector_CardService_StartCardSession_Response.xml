@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<v8:StartCardSessionResponse xmlns:v8="http://ws.gematik.de/conn/CardService/v8.2">
+    <v8:SessionId>sessionId</v8:SessionId>
+</v8:StartCardSessionResponse>

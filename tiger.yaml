@@ -1,10 +1,73 @@
 servers:
+  ptv6proxy:
+    type: tigerProxy
+    startupTimeoutSec: 60
+    tigerProxyConfiguration:
+      proxyLogLevel: ${tiger.loglevel}
+      proxyPort: ${free.port.3}
+      proxyRoutes:
+        - from: /
+          to: http://localhost:${free.port.2}
+          criterions:
+            - message.method == 'POST'
+            - message.path == '/ws/CardService'
+            - "$.header.soapaction =~ 'http://ws.gematik.de/conn/CardService/v8.2#.*'"
+        - from: /
+          to: https://localhost:${free.port.1}
+
+  mockCardService:
+    type: zion
+    zionConfiguration:
+      serverPort: ${free.port.2}
+      mockResponses:
+        startCardSession:
+          requestCriterions:
+            - message.method == 'POST'
+            - message.path == '/ws/CardService'
+            - "'?{$.header.soapaction}' == 'http://ws.gematik.de/conn/CardService/v8.2#StartCardSession'"
+          response:
+            statusCode: 200
+            headers:
+              Content-Type: "application/soap+xml; charset=utf-8"
+            bodyFile: src/main/resources/connector_CardService_StartCardSession_Response.xml
+        stopCardSession:
+          requestCriterions:
+            - message.method == 'POST'
+            - message.path == '/ws/CardService'
+            - "'?{$.header.soapaction}' == 'http://ws.gematik.de/conn/CardService/v8.2#StopCardSession'"
+          response:
+            statusCode: 200
+            headers:
+              Content-Type: "application/soap+xml; charset=utf-8"
+            bodyFile: src/main/resources/connector_CardService_StopCardSession_Response.xml
+        secureSendAPDU:
+          requestCriterions:
+            - message.method == 'POST'
+            - message.path == '/ws/CardService'
+            - "'?{$.header.soapaction}' == 'http://ws.gematik.de/conn/CardService/v8.2#SecureSendAPDU'"
+          nestedResponses:
+            okResponse:
+              importance: 1
+              requestCriterions:
+                - "'?{$.body.SecureSendAPDU.SignedScenario.text}' == '00b0910000'"
+              response:
+                statusCode: 200
+                headers:
+                  Content-Type: "application/soap+xml; charset=utf-8"
+                bodyFile: src/main/resources/connector_CardService_SecureSendAPDU_Response_OK.xml
+            errorReponse:
+              response:
+                statusCode: 200
+                headers:
+                  Content-Type: "application/soap+xml; charset=utf-8"
+                bodyFile: src/main/resources/connector_CardService_SecureSendAPDU_Response_Error.xml
+
   proxykon:
     type: tigerProxy
     startupTimeoutSec: 60
     tigerProxyConfiguration:
       proxyLogLevel: ${tiger.loglevel}
-      proxyPort: ${data.connector.port}
+      proxyPort: ${free.port.1}
       adminPort: ${data.connector.adminport}
       rewriteHostHeader: true
       proxyRoutes:
@@ -64,15 +127,19 @@ servers:
           replaceWith: '<OptionalInputs xmlns="http://ws.gematik.de/conn/SignatureService/v7.4"><SignatureType xmlns="urn:oasis:names:tc:dss:1.0:core:schema">urn:bsi:tr:03111:ecdsa</SignatureType></OptionalInputs>$0'
 
 tigerProxy:
+  proxyPort: ${data.connector.port}
   proxyLogLevel: ${tiger.loglevel}
   activeForwardAllLogging: true
   skipTrafficEndpointsSubscription: false
   activateRbelParsingFor: [ "asn1", "X509" ]
   trafficEndpoints:
     - http://127.0.0.1:${data.connector.adminport}
+  proxyRoutes:
+    - from: https://ptv6proxy
+      to: https://localhost:${free.port.3}
 
 lib:
-  activateWorkflowUi: true
+  activateWorkflowUi: false
 
 additionalConfigurationFiles:
   - filename: data.yaml
