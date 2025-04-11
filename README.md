@@ -12,6 +12,13 @@ This is necessary for the following operations:
 - ReadCardCertificate
 - CheckCertificateExpiration
 
+Some methods that are not supported by the connector yet are mocked by the proxy:
+- StartCardSession
+- StopCardSession
+- SecureSendAPDU
+
+For now, these methods return static mock responses that are served by a Zion server.
+
 ## Deployment
 
 ### GitHub
@@ -35,6 +42,8 @@ connector:
 ```
 
 Now replace the values in the data.yaml with the connector data you chose so that they fit your system.
+To use the mocked responses for the methods that are not supported by the connector, you need to also copy the files that contain the mocked responses.
+Alternatively, you can also provide your own mock responses and update the configuration to point to the correct files.
 
 ### Notice: fixed namespace
 
@@ -85,4 +94,10 @@ namespace:
 <OptionalInputs xmlns="http://ws.gematik.de/conn/SignatureService/v7.4">
     <SignatureType xmlns="urn:oasis:names:tc:dss:1.0:core:schema">urn:bsi:tr:03111:ecdsa</SignatureType>
 </OptionalInputs>
+```
+
+### Standalone
+In order to start the ptv6 proxy standalone, you can use the following command:
+```shell
+mvn tiger:up
 ```

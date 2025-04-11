@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<v8:SecureSendAPDUResponse xmlns:v8="http://ws.gematik.de/conn/CardService/v8.2" xmlns:v5="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:v2="http://ws.gematik.de/tel/error/v2.0">
+    <v5:Status>
+        <v5:Result>Warning</v5:Result>
+        <!--Optional:-->
+        <v2:Error>
+            <v2:MessageID>messageId</v2:MessageID>
+            <v2:Timestamp>2003-09-17T10:33:33+02:00</v2:Timestamp>
+            <!--1 or more repetitions:-->
+            <v2:Trace>
+                <v2:EventID>eventId</v2:EventID>
+                <v2:Instance>instance</v2:Instance>
+                <v2:LogReference>logReference</v2:LogReference>
+                <v2:CompType>compType</v2:CompType>
+                <v2:Code>100</v2:Code>
+                <v2:Severity>severity</v2:Severity>
+                <v2:ErrorType>errorType</v2:ErrorType>
+                <v2:ErrorText>errorText</v2:ErrorText>
+                <!--Optional:-->
+                <v2:Detail Encoding="string">enoding</v2:Detail>
+            </v2:Trace>
+        </v2:Error>
+    </v5:Status>
+    <v8:SignedScenarioResponse>
+        <v8:ResponseApduList />
+        <v8:TimeSpan>200</v8:TimeSpan>
+    </v8:SignedScenarioResponse>
+</v8:SecureSendAPDUResponse>
