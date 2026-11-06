@@ -1,3 +1,7 @@
+# Project status
+
+This project is archived and is no longer actively maintained. The repository is scheduled for deletion on June 1, 2027.
+
 # Tiger-PTV6-Proxy
 
 The Tiger PTV6 proxy is placed in front of a connector that meets the PTV5 specification and simulates connector
